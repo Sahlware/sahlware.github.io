@@ -1,84 +1,608 @@
-import { useEffect } from "react";
-import { motion, useAnimation } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
-
-const sections = [
-  {
-    title: "Making Software Effortless",
-    content: "Sahlware is here to simplify the way you work. From home to office, we design software that makes digital life smoother, faster, and more enjoyable.",
-    image: "/images/home-office-happy.jpg",
-  },
-  {
-    title: "Built for You—Individually and Professionally",
-    content: "We write smart code and integrate AI to craft tools that make life easier—whether you're managing personal tasks or driving professional projects.",
-    image: "/images/happy-team.jpg",
-  },
-  {
-    title: "Scalable. Secure. Simple.",
-    content: "From productivity tools to custom apps for small businesses, our solutions grow with your needs—without the headache.",
-    image: "/images/workflow.jpg",
-  },
-  {
-    title: "Smart Engineering at the Core",
-    content: "We combine clean code, modern design, and AI-powered features to deliver software that simply works—so you can focus on what matters most.",
-    image: "/images/founder.jpg",
-  },
-];
-
-const fadeInVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-};
-
-export default function HomePage() {
-  const controls = useAnimation();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = document.querySelectorAll(".fade-section");
-      sections.forEach((section, i) => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 0.8) {
-          controls.start("visible");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sahlware - Software That Just Works</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
         }
-      });
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [controls]);
-
-  return (
-    <div className="bg-white text-gray-800">
-      <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-blue-50 to-white py-20">
-        <h1 className="text-5xl font-bold mb-6 text-center">Welcome to Sahlware</h1>
-        <p className="text-xl text-center max-w-xl">Empowering individuals and SMBs with intuitive, secure, and scalable software solutions.</p>
-      </div>
-
-      {sections.map((section, i) => (
-        <motion.div
-          key={i}
-          className="fade-section max-w-5xl mx-auto px-4 py-16"
-          initial="hidden"
-          animate={controls}
-          variants={fadeInVariants}
-        >
-          <Card className="rounded-2xl shadow-lg overflow-hidden">
-            <div className="md:flex">
-              <img
-                src={section.image}
-                alt={section.title}
-                className="w-full md:w-1/2 object-cover h-64 md:h-auto"
-              />
-              <CardContent className="p-6 md:w-1/2">
-                <h2 className="text-2xl font-semibold mb-4">{section.title}</h2>
-                <p>{section.content}</p>
-              </CardContent>
+        
+        section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #9333ea 100%);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white shadow-sm z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-xl">S</div>
+                        <span class="ml-3 text-xl font-semibold text-gray-900">Sahlware</span>
+                    </div>
+                </div>
+                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+                    <a href="#home" class="text-gray-900 hover:text-indigo-600 px-3 py-2 text-sm font-medium">Home</a>
+                    <a href="#products" class="text-gray-500 hover:text-indigo-600 px-3 py-2 text-sm font-medium">Products</a>
+                    <a href="#solutions" class="text-gray-500 hover:text-indigo-600 px-3 py-2 text-sm font-medium">Solutions</a>
+                    <a href="#about" class="text-gray-500 hover:text-indigo-600 px-3 py-2 text-sm font-medium">About</a>
+                    <a href="#contact" class="text-gray-500 hover:text-indigo-600 px-3 py-2 text-sm font-medium">Contact</a>
+                    <button class="ml-8 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Get Started
+                    </button>
+                </div>
+                <div class="-mr-2 flex items-center md:hidden">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
             </div>
-          </Card>
-        </motion.div>
-      ))}
+        </div>
+    </nav>
 
-      <div className="text-center text-gray-500 py-10">© 2025 Sahlware LLC - Built in Washington</div>
-    </div>
-  );
-}
+    <!-- Hero Section -->
+    <section id="home" class="hero-gradient min-h-screen flex items-center justify-center pt-16 pb-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="mb-8">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
+                    Washington-based software solutions
+                </span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+                Software that <span class="text-indigo-200">just works</span>
+            </h1>
+            <p class="mt-6 text-xl text-indigo-100 max-w-3xl mx-auto">
+                We create intuitive, secure, and scalable digital solutions that streamline operations and enhance productivity for individuals and businesses.
+            </p>
+            <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#products" class="px-8 py-4 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10 transition-all duration-300 transform hover:scale-105">
+                    Explore Products
+                </a>
+                <a href="#contact" class="px-8 py-4 border border-transparent text-base font-medium rounded-md text-white bg-indigo-500 bg-opacity-60 hover:bg-opacity-70 md:py-4 md:text-lg md:px-10 transition-all duration-300 transform hover:scale-105">
+                    Contact Us
+                </a>
+            </div>
+            <div class="mt-16 scroll-indicator">
+                <a href="#products" class="text-white animate-bounce inline-block">
+                    <i class="fas fa-chevron-down text-2xl"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    Our <span class="text-indigo-600">Products</span>
+                </h2>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Designed for tech-savvy individuals who value efficiency and simplicity
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- Product 1 -->
+                <div class="feature-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl">
+                    <div class="h-48 bg-indigo-50 flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Productivity app" class="h-full w-full object-cover">
+                    </div>
+                    <div class="p-8">
+                        <div class="uppercase tracking-wide text-sm text-indigo-600 font-semibold">Productivity</div>
+                        <h3 class="mt-2 text-xl font-semibold text-gray-900">FlowTask</h3>
+                        <p class="mt-3 text-gray-500">
+                            Organize your workday with our intuitive task management system that adapts to your workflow.
+                        </p>
+                        <div class="mt-6">
+                            <button class="text-indigo-600 hover:text-indigo-800 font-medium">
+                                Learn more <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="feature-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl">
+                    <div class="h-48 bg-indigo-50 flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1555774698-0f77e0f5b96e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Data visualization" class="h-full w-full object-cover">
+                    </div>
+                    <div class="p-8">
+                        <div class="uppercase tracking-wide text-sm text-indigo-600 font-semibold">Analytics</div>
+                        <h3 class="mt-2 text-xl font-semibold text-gray-900">DataPulse</h3>
+                        <p class="mt-3 text-gray-500">
+                            Transform complex data into actionable insights with beautiful, interactive visualizations.
+                        </p>
+                        <div class="mt-6">
+                            <button class="text-indigo-600 hover:text-indigo-800 font-medium">
+                                Learn more <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="feature-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl">
+                    <div class="h-48 bg-indigo-50 flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Communication app" class="h-full w-full object-cover">
+                    </div>
+                    <div class="p-8">
+                        <div class="uppercase tracking-wide text-sm text-indigo-600 font-semibold">Communication</div>
+                        <h3 class="mt-2 text-xl font-semibold text-gray-900">ConnectHub</h3>
+                        <p class="mt-3 text-gray-500">
+                            Streamline team communication with secure, organized channels and smart notifications.
+                        </p>
+                        <div class="mt-6">
+                            <button class="text-indigo-600 hover:text-indigo-800 font-medium">
+                                Learn more <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section id="solutions" class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-8">
+                <div class="lg:col-span-5">
+                    <div class="mb-8">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
+                            For Small & Medium Businesses
+                        </span>
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                        Custom <span class="text-indigo-600">Solutions</span>
+                    </h2>
+                    <p class="mt-4 text-lg text-gray-500">
+                        We build tailored software that fits your unique business needs, helping you automate processes and improve efficiency.
+                    </p>
+                    
+                    <div class="mt-10">
+                        <div class="flex items-start mb-8">
+                            <div class="flex-shrink-0 bg-indigo-50 p-2 rounded-lg">
+                                <i class="fas fa-cogs text-indigo-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">Workflow Automation</h3>
+                                <p class="mt-1 text-gray-500">
+                                    Eliminate repetitive tasks and reduce human error with intelligent automation.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start mb-8">
+                            <div class="flex-shrink-0 bg-indigo-50 p-2 rounded-lg">
+                                <i class="fas fa-database text-indigo-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">Data Management</h3>
+                                <p class="mt-1 text-gray-500">
+                                    Centralize and secure your business data with custom database solutions.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 bg-indigo-50 p-2 rounded-lg">
+                                <i class="fas fa-chart-line text-indigo-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">Business Intelligence</h3>
+                                <p class="mt-1 text-gray-500">
+                                    Gain valuable insights from your operations data to make informed decisions.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-12 lg:mt-0 lg:col-span-7">
+                    <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Team working together" class="w-full h-auto object-cover">
+                        <div class="p-8">
+                            <h3 class="text-xl font-semibold text-gray-900">Success Story: Northwest Retail</h3>
+                            <p class="mt-4 text-gray-500">
+                                "Sahlware built us a custom inventory management system that reduced our stock discrepancies by 85% and saved us over 20 hours per week in manual tracking."
+                            </p>
+                            <div class="mt-6 flex items-center">
+                                <div class="flex-shrink-0">
+                                    <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="">
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">Sarah Johnson</p>
+                                    <p class="text-sm text-gray-500">Operations Manager</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
+                <div class="lg:col-span-6 mb-12 lg:mb-0">
+                    <img src="https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Developer working" class="rounded-xl shadow-xl w-full h-auto">
+                </div>
+                <div class="lg:col-span-6">
+                    <div class="mb-8">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
+                            Our Story
+                        </span>
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                        About <span class="text-indigo-600">Sahlware</span>
+                    </h2>
+                    <p class="mt-4 text-lg text-gray-500">
+                        Founded in Washington State, Sahlware is a single-member LLC dedicated to creating software that makes life and work easier. We believe technology should adapt to people, not the other way around.
+                    </p>
+                    
+                    <div class="mt-8 grid grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-900">Our Approach</h3>
+                            <p class="mt-2 text-gray-500">
+                                Direct interaction with clients ensures we build exactly what you need, with rapid iteration based on your feedback.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-900">Our Promise</h3>
+                            <p class="mt-2 text-gray-500">
+                                Intuitive interfaces, robust security, and scalable architecture in every product we deliver.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <a href="#contact" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Get in Touch
+                            <i class="fas fa-arrow-right ml-3"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-indigo-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    What Our <span class="text-indigo-600">Clients Say</span>
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="flex-shrink-0">
+                            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="">
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-gray-900">Michael Chen</p>
+                            <p class="text-sm text-gray-500">Freelance Designer</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-500 italic">
+                        "FlowTask has completely transformed how I manage my projects. What used to take me hours now takes minutes, and I've never been more organized."
+                    </p>
+                    <div class="mt-4 flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="flex-shrink-0">
+                            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="">
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-gray-900">David Rodriguez</p>
+                            <p class="text-sm text-gray-500">Small Business Owner</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-500 italic">
+                        "The custom CRM Sahlware built for us has improved our customer retention by 40%. Their attention to detail and quick response time is unmatched."
+                    </p>
+                    <div class="mt-4 flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="flex-shrink-0">
+                            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=688&q=80" alt="">
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-gray-900">Emily Wilson</p>
+                            <p class="text-sm text-gray-500">Marketing Director</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-500 italic">
+                        "DataPulse helped us uncover trends we never noticed before. Now we make data-driven decisions with confidence. The learning curve was practically non-existent."
+                    </p>
+                    <div class="mt-4 flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-indigo-600">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                Ready to <span class="text-indigo-200">simplify</span> your workflow?
+            </h2>
+            <p class="mt-4 text-xl text-indigo-100 max-w-3xl mx-auto">
+                Whether you're an individual looking for productivity tools or a business needing custom solutions, we've got you covered.
+            </p>
+            <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#contact" class="px-8 py-4 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10 transition-all duration-300 transform hover:scale-105">
+                    Contact Us
+                </a>
+                <a href="#products" class="px-8 py-4 border border-white text-base font-medium rounded-md text-white hover:bg-indigo-700 md:py-4 md:text-lg md:px-10 transition-all duration-300 transform hover:scale-105">
+                    Browse Products
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-8">
+                <div class="lg:col-span-5">
+                    <div class="mb-8">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
+                            Get In Touch
+                        </span>
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                        Contact <span class="text-indigo-600">Us</span>
+                    </h2>
+                    <p class="mt-4 text-lg text-gray-500">
+                        Have questions about our products or services? Want to discuss a custom solution for your business? Reach out and we'll get back to you within 24 hours.
+                    </p>
+                    
+                    <div class="mt-10">
+                        <div class="flex items-start mb-8">
+                            <div class="flex-shrink-0 bg-indigo-50 p-2 rounded-lg">
+                                <i class="fas fa-envelope text-indigo-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">Email</h3>
+                                <p class="mt-1 text-gray-500">
+                                    hello@sahlware.com
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start mb-8">
+                            <div class="flex-shrink-0 bg-indigo-50 p-2 rounded-lg">
+                                <i class="fas fa-map-marker-alt text-indigo-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">Location</h3>
+                                <p class="mt-1 text-gray-500">
+                                    Washington State, USA
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-12 lg:mt-0 lg:col-span-7">
+                    <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+                        <div class="p-8">
+                            <form class="space-y-6">
+                                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                                    <div>
+                                        <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
+                                        <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                    </div>
+                                    <div>
+                                        <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
+                                        <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                    <input type="email" name="email" id="email" autocomplete="email" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="subject" class="block text-sm font-medium text-gray-700">Subject</label>
+                                    <select id="subject" name="subject" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                        <option>General Inquiry</option>
+                                        <option>Product Support</option>
+                                        <option>Custom Solution</option>
+                                        <option>Partnership</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                                    <textarea id="message" name="message" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                                </div>
+                                <div>
+                                    <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        Send Message
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="col-span-2">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-xl">S</div>
+                        <span class="ml-3 text-xl font-semibold text-white">Sahlware</span>
+                    </div>
+                    <p class="mt-4 text-gray-300">
+                        Creating intuitive, secure, and scalable software solutions for individuals and businesses.
+                    </p>
+                    <div class="mt-6 flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-white tracking-wider uppercase">Products</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li><a href="#" class="text-base text-gray-300 hover:text-white">FlowTask</a></li>
+                        <li><a href="#" class="text-base text-gray-300 hover:text-white">DataPulse</a></li>
+                        <li><a href="#" class="text-base text-gray-300 hover:text-white">ConnectHub</a></li>
+                        <li><a href="#" class="text-base text-gray-300 hover:text-white">All Products</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-white tracking-wider uppercase">Company</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li><a href="#" class="text-base text-gray-300 hover:text-white">About</a></li>
+                        <li><a href="#" class="text-base text-gray-300 hover:text-white">Blog</a></li>
+                        <li><a href="#" class="text-base text-gray-300 hover:text-white">Careers</a></li>
+                        <li><a href="#" class="text-base text-gray-300 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between">
+                <p class="text-gray-400 text-sm">
+                    &copy; 2023 Sahlware LLC. All rights reserved.
+                </p>
+                <div class="mt-4 md:mt-0 flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white text-sm">Privacy</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm">Terms</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll animation
+        const sections = document.querySelectorAll('section');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-lg');
+                nav.classList.add('bg-opacity-90');
+                nav.classList.add('backdrop-filter');
+                nav.classList.add('backdrop-blur-sm');
+            } else {
+                nav.classList.remove('shadow-lg');
+                nav.classList.remove('bg-opacity-90');
+                nav.classList.remove('backdrop-filter');
+                nav.classList.remove('backdrop-blur-sm');
+            }
+        });
+    </script>
+</body>
+</html>
