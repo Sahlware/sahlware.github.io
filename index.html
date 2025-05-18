@@ -1,0 +1,84 @@
+import { useEffect } from "react";
+import { motion, useAnimation } from "framer-motion";
+import { Card, CardContent } from "@/components/ui/card";
+
+const sections = [
+  {
+    title: "Making Software Effortless",
+    content: "Sahlware is here to simplify the way you work. From home to office, we design software that makes digital life smoother, faster, and more enjoyable.",
+    image: "/images/home-office-happy.jpg",
+  },
+  {
+    title: "Built for You—Individually and Professionally",
+    content: "We write smart code and integrate AI to craft tools that make life easier—whether you're managing personal tasks or driving professional projects.",
+    image: "/images/happy-team.jpg",
+  },
+  {
+    title: "Scalable. Secure. Simple.",
+    content: "From productivity tools to custom apps for small businesses, our solutions grow with your needs—without the headache.",
+    image: "/images/workflow.jpg",
+  },
+  {
+    title: "Smart Engineering at the Core",
+    content: "We combine clean code, modern design, and AI-powered features to deliver software that simply works—so you can focus on what matters most.",
+    image: "/images/founder.jpg",
+  },
+];
+
+const fadeInVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+};
+
+export default function HomePage() {
+  const controls = useAnimation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = document.querySelectorAll(".fade-section");
+      sections.forEach((section, i) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.8) {
+          controls.start("visible");
+        }
+      });
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [controls]);
+
+  return (
+    <div className="bg-white text-gray-800">
+      <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-blue-50 to-white py-20">
+        <h1 className="text-5xl font-bold mb-6 text-center">Welcome to Sahlware</h1>
+        <p className="text-xl text-center max-w-xl">Empowering individuals and SMBs with intuitive, secure, and scalable software solutions.</p>
+      </div>
+
+      {sections.map((section, i) => (
+        <motion.div
+          key={i}
+          className="fade-section max-w-5xl mx-auto px-4 py-16"
+          initial="hidden"
+          animate={controls}
+          variants={fadeInVariants}
+        >
+          <Card className="rounded-2xl shadow-lg overflow-hidden">
+            <div className="md:flex">
+              <img
+                src={section.image}
+                alt={section.title}
+                className="w-full md:w-1/2 object-cover h-64 md:h-auto"
+              />
+              <CardContent className="p-6 md:w-1/2">
+                <h2 className="text-2xl font-semibold mb-4">{section.title}</h2>
+                <p>{section.content}</p>
+              </CardContent>
+            </div>
+          </Card>
+        </motion.div>
+      ))}
+
+      <div className="text-center text-gray-500 py-10">© 2025 Sahlware LLC - Built in Washington</div>
+    </div>
+  );
+}
